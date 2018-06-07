@@ -8,13 +8,17 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mbedtls
-PKG_VERSION:=2.12.0
-PKG_RELEASE:=1
+PKG_VERSION:=2.7.1
+PKG_RELEASE:=a027ceb89e20bb71b4070599b9492bfe2a477141
 PKG_USE_MIPS16:=0
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-gpl.tgz
-PKG_SOURCE_URL:=https://tls.mbed.org/download/
-PKG_HASH:=8661d19a896a5a7a232ed01ac7f05cf0ec3514798f18076c2c9ef965fbeb5a28
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_RELEASE).tar.gz
+PKG_SOURCE_URL:=https://github.com/linusyang92/mbedtls.git
+PKG_SOURCE_VERSION:=$(PKG_RELEASE)
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_RELEASE)
+
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_NAME)-$(PKG_VERSION)-$(PKG_RELEASE)
 
 PKG_BUILD_PARALLEL:=1
 PKG_LICENSE:=GPL-2.0+
@@ -67,7 +71,9 @@ TARGET_CFLAGS += -ffunction-sections -fdata-sections
 
 CMAKE_OPTIONS += \
 	-DCMAKE_BUILD_TYPE:String="Release" \
+	-DUSE_STATIC_MBEDTLS_LIBRARY:Bool=OFF \
 	-DUSE_SHARED_MBEDTLS_LIBRARY:Bool=ON \
+	-DNOINTEL:Bool=ON \
 	-DENABLE_TESTING:Bool=OFF \
 	-DENABLE_PROGRAMS:Bool=ON
 
@@ -76,7 +82,6 @@ define Build/InstallDev
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/mbedtls $(1)/usr/include/
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/lib*.so* $(1)/usr/lib/
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/lib*.a $(1)/usr/lib/
 endef
 
 define Package/libmbedtls/install
