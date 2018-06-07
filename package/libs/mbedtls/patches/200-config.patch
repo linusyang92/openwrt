@@ -1,6 +1,8 @@
+diff --git a/include/mbedtls/config.h b/include/mbedtls/config.h
+index 9008789..b2a5b7f 100644
 --- a/include/mbedtls/config.h
 +++ b/include/mbedtls/config.h
-@@ -566,17 +566,17 @@
+@@ -567,17 +567,17 @@
   *
   * Comment macros to disable the curve and functions for it
   */
@@ -26,7 +28,7 @@
  #define MBEDTLS_ECP_DP_CURVE25519_ENABLED
  
  /**
-@@ -601,8 +601,8 @@
+@@ -602,8 +602,8 @@
   * Requires: MBEDTLS_HMAC_DRBG_C
   *
   * Comment this macro to disable deterministic ECDSA.
@@ -36,7 +38,7 @@
  
  /**
   * \def MBEDTLS_KEY_EXCHANGE_PSK_ENABLED
-@@ -655,7 +655,7 @@
+@@ -656,7 +656,7 @@
   *             See dhm.h for more details.
   *
   */
@@ -45,7 +47,7 @@
  
  /**
   * \def MBEDTLS_KEY_EXCHANGE_ECDHE_PSK_ENABLED
-@@ -674,8 +674,8 @@
+@@ -675,8 +675,8 @@
   *      MBEDTLS_TLS_ECDHE_PSK_WITH_CAMELLIA_128_CBC_SHA256
   *      MBEDTLS_TLS_ECDHE_PSK_WITH_3DES_EDE_CBC_SHA
   *      MBEDTLS_TLS_ECDHE_PSK_WITH_RC4_128_SHA
@@ -55,7 +57,7 @@
  
  /**
   * \def MBEDTLS_KEY_EXCHANGE_RSA_PSK_ENABLED
-@@ -700,7 +700,7 @@
+@@ -701,7 +701,7 @@
   *      MBEDTLS_TLS_RSA_PSK_WITH_3DES_EDE_CBC_SHA
   *      MBEDTLS_TLS_RSA_PSK_WITH_RC4_128_SHA
   */
@@ -64,7 +66,7 @@
  
  /**
   * \def MBEDTLS_KEY_EXCHANGE_RSA_ENABLED
-@@ -834,7 +834,7 @@
+@@ -835,7 +835,7 @@
   *      MBEDTLS_TLS_ECDH_ECDSA_WITH_CAMELLIA_128_GCM_SHA256
   *      MBEDTLS_TLS_ECDH_ECDSA_WITH_CAMELLIA_256_GCM_SHA384
   */
@@ -73,7 +75,7 @@
  
  /**
   * \def MBEDTLS_KEY_EXCHANGE_ECDH_RSA_ENABLED
-@@ -858,7 +858,7 @@
+@@ -859,7 +859,7 @@
   *      MBEDTLS_TLS_ECDH_RSA_WITH_CAMELLIA_128_GCM_SHA256
   *      MBEDTLS_TLS_ECDH_RSA_WITH_CAMELLIA_256_GCM_SHA384
   */
@@ -82,7 +84,7 @@
  
  /**
   * \def MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED
-@@ -962,7 +962,7 @@
+@@ -963,7 +963,7 @@
   * This option is only useful if both MBEDTLS_SHA256_C and
   * MBEDTLS_SHA512_C are defined. Otherwise the available hash module is used.
   */
@@ -155,7 +157,7 @@
  
  /**
   * \def MBEDTLS_X509_ALLOW_EXTENSIONS_NON_V3
-@@ -1801,7 +1801,7 @@
+@@ -1823,7 +1823,7 @@
   *      MBEDTLS_TLS_PSK_WITH_CAMELLIA_128_GCM_SHA256
   *      MBEDTLS_TLS_PSK_WITH_CAMELLIA_128_CBC_SHA256
   */
@@ -163,8 +165,8 @@
 +//#define MBEDTLS_CAMELLIA_C
  
  /**
-  * \def MBEDTLS_CCM_C
-@@ -1815,7 +1815,7 @@
+  * \def MBEDTLS_CHACHA20_C
+@@ -1847,7 +1847,7 @@
   * This module enables the AES-CCM ciphersuites, if other requisites are
   * enabled as well.
   */
@@ -173,7 +175,7 @@
  
  /**
   * \def MBEDTLS_CERTS_C
-@@ -1827,7 +1827,7 @@
+@@ -1859,7 +1859,7 @@
   *
   * This module is used for testing (ssl_client/server).
   */
@@ -182,7 +184,7 @@
  
  /**
   * \def MBEDTLS_CIPHER_C
-@@ -1880,7 +1880,7 @@
+@@ -1912,7 +1912,7 @@
   *
   * This module provides debugging functions.
   */
@@ -191,7 +193,7 @@
  
  /**
   * \def MBEDTLS_DES_C
-@@ -1909,7 +1909,7 @@
+@@ -1941,7 +1941,7 @@
   * \warning   DES is considered a weak cipher and its use constitutes a
   *            security risk. We recommend considering stronger ciphers instead.
   */
@@ -200,17 +202,16 @@
  
  /**
   * \def MBEDTLS_DHM_C
-@@ -2070,8 +2070,8 @@
-  * Requires: MBEDTLS_MD_C
+@@ -2386,7 +2386,7 @@
   *
-  * Uncomment to enable the HMAC_DRBG random number geerator.
-- */
- #define MBEDTLS_HMAC_DRBG_C
-+ */
+  * This module enables abstraction of common (libc) functions.
+  */
+-#define MBEDTLS_PLATFORM_C
++//#define MBEDTLS_PLATFORM_C
  
  /**
-  * \def MBEDTLS_MD_C
-@@ -2365,7 +2365,7 @@
+  * \def MBEDTLS_POLY1305_C
+@@ -2407,7 +2407,7 @@
   * Caller:  library/md.c
   *
   */
@@ -219,17 +220,7 @@
  
  /**
   * \def MBEDTLS_RSA_C
-@@ -2449,8 +2449,8 @@
-  * Caller:
-  *
-  * Requires: MBEDTLS_SSL_CACHE_C
-- */
- #define MBEDTLS_SSL_CACHE_C
-+ */
- 
- /**
-  * \def MBEDTLS_SSL_COOKIE_C
-@@ -2471,8 +2471,8 @@
+@@ -2513,8 +2513,8 @@
   * Caller:
   *
   * Requires: MBEDTLS_CIPHER_C
@@ -239,7 +230,7 @@
  
  /**
   * \def MBEDTLS_SSL_CLI_C
-@@ -2571,8 +2571,8 @@
+@@ -2613,8 +2613,8 @@
   * Module:  library/version.c
   *
   * This module provides run-time version information.
@@ -249,7 +240,7 @@
  
  /**
   * \def MBEDTLS_X509_USE_C
-@@ -2682,7 +2682,7 @@
+@@ -2724,7 +2724,7 @@
   * Module:  library/xtea.c
   * Caller:
   */
