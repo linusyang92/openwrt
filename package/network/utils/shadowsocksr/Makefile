@@ -35,7 +35,7 @@ define Package/shadowsocksr-libev
 	CATEGORY:=Network
 	TITLE:=Lightweight Secured Socks5 Proxy
 	URL:=https://github.com/shadowsocksr/shadowsocksr-libev
-	DEPENDS:=+libmbedtls +libpthread
+	DEPENDS:=+libmbedtls
 endef
 
 define Package/shadowsocksr-libev/description
