@@ -1,0 +1,53 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2016 EasyPi Software Foundation
+
+START=99
+STOP=1
+
+USE_PROCD=1
+NAME=frpc
+PIDCOUNT=0
+
+validate_section_frpc()
+{
+	uci_validate_section frpc frpc "${1}" \
+		'enabled:bool:0' \
+		'service:string:frpc' \
+		'config:string' \
+		'extra_params:list(string)'
+}
+
+append_extra_params()
+{
+	procd_append_param command "${1}"
+}
+
+frpc_instance()
+{
+	local enabled service config extra_params
+	validate_section_frpc "${1}" || {
+		echo "validation failed: ${1}"
+		return 1
+	}
+	[ -x "/usr/bin/${service}" ] || {
+		service="frpc"
+	}
+
+	[ "${enabled}" = "0" ] && return 1
+	PIDCOUNT="$(( ${PIDCOUNT} + 1))"
+
+	procd_open_instance
+	procd_set_param command "/usr/bin/${service}"
+	[ -n "${config}" ] && procd_append_param command -c "${config}"
+	config_list_foreach "${1}" extra_params append_extra_params
+	procd_set_param stdout 1
+	procd_set_param stderr 1
+	procd_set_param respawn
+	procd_close_instance
+}
+
+start_service()
+{
+	config_load "${NAME}"
+	config_foreach frpc_instance frpc
+}
