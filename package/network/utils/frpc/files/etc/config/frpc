@@ -1,0 +1,4 @@
+config frpc frpc
+	option enabled '0'
+	option service 'frpc'
+	option config '/etc/frpc/frpc.ini'
