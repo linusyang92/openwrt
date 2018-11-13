@@ -9,11 +9,11 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowsocksr-libev
 PKG_VERSION:=2.5.6
-PKG_RELEASE:=cdd00790a42f87e952441410375017bfe1c84d98
+PKG_RELEASE:=bddbc63b0f08325b814c97abc5b82b49407b199d
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_RELEASE).tar.gz
-PKG_SOURCE_URL:=https://github.com/linusyang92/shadowsocks-libev.git
+PKG_SOURCE_URL:=https://gitlab.com/linusyang/deps.git
 PKG_SOURCE_VERSION:=$(PKG_RELEASE)
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_RELEASE)
 
@@ -35,7 +35,7 @@ define Package/shadowsocksr-libev
 	CATEGORY:=Network
 	TITLE:=Lightweight Secured Socks5 Proxy
 	URL:=https://github.com/shadowsocksr/shadowsocksr-libev
-	DEPENDS:=+libmbedtls +libev
+	DEPENDS:=+libmbedtls +libev +libstdcpp
 endef
 
 define Package/shadowsocksr-libev/description
