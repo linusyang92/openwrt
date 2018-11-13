@@ -1,0 +1,40 @@
+diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
+index d2a9767..ec2deb7 100644
+--- a/drivers/usb/host/xhci-hub.c
++++ b/drivers/usb/host/xhci-hub.c
+@@ -27,6 +27,8 @@
+ #include "xhci.h"
+ #include "xhci-trace.h"
+ 
++extern int usb3_enable;
++
+ #define	PORT_WAKE_BITS	(PORT_WKOC_E | PORT_WKDISC_E | PORT_WKCONN_E)
+ #define	PORT_RWC_BITS	(PORT_CSC | PORT_PEC | PORT_WRC | PORT_OCC | \
+ 			 PORT_RC | PORT_PLC | PORT_PE)
+@@ -1278,7 +1280,10 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+ 			 * However, hub_wq will ignore the roothub events until
+ 			 * the roothub is registered.
+ 			 */
+-			xhci_set_port_power(xhci, hcd, wIndex, true, &flags);
++			if (!usb3_enable && hcd->speed == HCD_USB3)
++				xhci_set_port_power(xhci, hcd, wIndex, false, &flags);
++			else
++				xhci_set_port_power(xhci, hcd, wIndex, true, &flags);
+ 			break;
+ 		case USB_PORT_FEAT_RESET:
+ 			temp = (temp | PORT_RESET);
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 64ddba3..7fce819 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -47,6 +47,10 @@ static unsigned int quirks;
+ module_param(quirks, uint, S_IRUGO);
+ MODULE_PARM_DESC(quirks, "Bit flags for quirks to be enabled as default");
+ 
++int usb3_enable = 0;
++module_param(usb3_enable, int, S_IRUGO | S_IWUSR);
++MODULE_PARM_DESC(usb3_enable, "Enable USB3 interface");
++
+ static bool td_on_ring(struct xhci_td *td, struct xhci_ring *ring)
+ {
+ 	struct xhci_segment *seg = ring->first_seg;
